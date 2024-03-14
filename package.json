@@ -1,0 +1,46 @@
+{
+  "name": "great-github-to-discord-webhooks",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "homepage": "https://github.com/SpraxDev/Great-GitHub-To-Discord-Webhooks#readme",
+  "license": "MIT",
+  "keywords": [],
+  "author": {
+    "name": "Christian Koop",
+    "url": "https://github.com/SpraxDev",
+    "email": "contact@sprax2013.de"
+  },
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpraxDev/Great-GitHub-To-Discord-Webhooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SpraxDev/Great-GitHub-To-Discord-Webhooks/issues"
+  },
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+
+    "test": "jest --coverage",
+    "dev": "nodemon --ext ts --watch ./src --exec \"ts-node src/main.ts\"",
+
+    "docker:build": "npm run build && docker build --rm --tag great-github-to-discord-webhooks:dev .",
+    "docker:dev": "npm run docker:build && (docker stop great-github-to-discord-webhooks;docker rm great-github-to-discord-webhooks;echo '') && docker run --name great-github-to-discord-webhooks --cpus 2 --memory 512M --volume great-github-to-discord-webhooks-dev:/app/storage/ great-github-to-discord-webhooks:dev"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.27",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}
