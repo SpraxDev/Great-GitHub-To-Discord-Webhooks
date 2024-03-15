@@ -1,5 +1,6 @@
 ## Project
 /dist/
+/storage/
 
 ## npm and other dependencies
 /node_modules/

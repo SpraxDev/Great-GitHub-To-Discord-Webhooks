@@ -36,6 +36,7 @@
   "dependencies": {
     "@sentry/node": "^7.107.0",
     "@sentry/profiling-node": "^7.107.0",
+    "@spraxdev/node-commons": "github:SpraxDev/Node-Commons#b29223e6d0f48e7c217f628d818251cbfeb62342",
     "fastify": "^4.26.2",
     "reflect-metadata": "^0.2.1",
     "tsyringe": "^4.8.0"

@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/node';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import Os from 'node:os';
+import { container } from 'tsyringe';
+import AppConfiguration from './config/AppConfiguration';
 import { getAppVersion, IS_PRODUCTION } from './constants';
 
 export function logAndCaptureError(error: unknown): void {
@@ -20,10 +22,15 @@ export function captureError(error: unknown): void {
 }
 
 export async function initSentrySdk(): Promise<void> {
-  const appVersion = await getAppVersion();
+  const dsn = container.resolve(AppConfiguration).get().sentryDsn;
+  if (dsn == '') {
+    console.warn('Sentry DSN is not set up, skipping Sentry initialization');
+    return;
+  }
 
+  const appVersion = await getAppVersion();
   Sentry.init({
-    dsn: '', // FIXME
+    dsn,
     environment: IS_PRODUCTION ? 'production' : 'development',
     release: appVersion,
 
