@@ -1,5 +1,6 @@
 import Fastify, { type FastifyError, FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify';
 import { singleton } from 'tsyringe';
+import { logAndCaptureError, setupSentryFastifyIntegration } from '../SentrySdk';
 
 @singleton()
 export default class FastifyWebServer {
@@ -14,10 +15,14 @@ export default class FastifyWebServer {
     });
 
     this.fastify.setErrorHandler((err: FastifyError, _req: FastifyRequest, reply: FastifyReply): void => {
+      logAndCaptureError(err);
+
       reply
         .code(500)
         .send('Internal Server Error');
     });
+    setupSentryFastifyIntegration(this.fastify);
+
   }
 
   async listen(host: string, port: number): Promise<void> {

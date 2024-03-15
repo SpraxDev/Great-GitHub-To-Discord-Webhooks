@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { IS_PRODUCTION } from './constants';
+import { initSentrySdk } from './SentrySdk';
 import FastifyWebServer from './webserver/FastifyWebServer';
 
 let webServer: FastifyWebServer | undefined;
@@ -8,6 +9,7 @@ let webServer: FastifyWebServer | undefined;
 bootstrap();
 
 async function bootstrap(): Promise<void> {
+  await initSentrySdk();
   registerShutdownHooks();
 
   webServer = container.resolve(FastifyWebServer);
