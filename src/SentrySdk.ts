@@ -5,7 +5,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import Os from 'node:os';
 import { container } from 'tsyringe';
 import AppConfiguration from './config/AppConfiguration';
-import { getAppVersion, IS_PRODUCTION } from './constants';
+import { getAppInfo, IS_PRODUCTION } from './constants';
 
 export function logAndCaptureError(error: unknown): void {
   Sentry.captureException(error);
@@ -28,7 +28,7 @@ export async function initSentrySdk(): Promise<void> {
     return;
   }
 
-  const appVersion = await getAppVersion();
+  const appVersion = (await getAppInfo()).version;
   Sentry.init({
     dsn,
     environment: IS_PRODUCTION ? 'production' : 'development',
