@@ -1,12 +1,13 @@
 import Fastify, { type FastifyError, FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify';
 import { singleton } from 'tsyringe';
 import { logAndCaptureError, setupSentryFastifyIntegration } from '../SentrySdk';
+import GitHubHookReceiverRouter from './GitHubHookReceiverRouter';
 
 @singleton()
 export default class FastifyWebServer {
   private readonly fastify: FastifyInstance;
 
-  constructor() {
+  constructor(gitHubHookReceiverRouter: GitHubHookReceiverRouter) {
     this.fastify = Fastify({
       ignoreDuplicateSlashes: true,
       bodyLimit: 50 * 1024 * 1024, // 50 MiB (twice the size of GitHub's documented max payload size)
@@ -23,6 +24,7 @@ export default class FastifyWebServer {
     });
     setupSentryFastifyIntegration(this.fastify);
 
+    this.setupRoutes(gitHubHookReceiverRouter);
   }
 
   async listen(host: string, port: number): Promise<void> {
@@ -31,5 +33,9 @@ export default class FastifyWebServer {
 
   async shutdown(): Promise<void> {
     await this.fastify.close();
+  }
+
+  private setupRoutes(gitHubHookReceiverRouter: GitHubHookReceiverRouter): void {
+    gitHubHookReceiverRouter.register(this.fastify);
   }
 }
