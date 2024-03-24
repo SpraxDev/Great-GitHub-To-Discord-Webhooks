@@ -76,6 +76,10 @@ export async function initSentrySdk(): Promise<void> {
   });
 }
 
+export async function shutdownSentrySdk(): Promise<void> {
+  await Sentry.close(15_000);
+}
+
 /** This is a workaround until Sentry supports Fastify: https://github.com/getsentry/sentry-javascript/issues/4784 */
 export function setupSentryFastifyIntegration(fastify: FastifyInstance): void {
   fastify.decorateRequest('sentryTransaction', null);

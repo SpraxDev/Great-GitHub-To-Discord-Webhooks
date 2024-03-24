@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { IS_PRODUCTION } from './constants';
-import { initSentrySdk } from './SentrySdk';
+import { initSentrySdk, shutdownSentrySdk } from './SentrySdk';
 import FastifyWebServer from './webserver/FastifyWebServer';
 
 let webServer: FastifyWebServer | undefined;
@@ -28,6 +28,8 @@ function registerShutdownHooks(): void {
 
     await webServer?.shutdown();
     webServer = undefined;
+
+    await shutdownSentrySdk();
 
     console.log('Finished graceful shutdown.');
     process.exit(0);
