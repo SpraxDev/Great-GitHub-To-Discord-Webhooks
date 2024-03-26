@@ -1,5 +1,5 @@
 import { HttpClient } from '@spraxdev/node-commons';
-import { injectable, singleton } from 'tsyringe';
+import { injectable } from 'tsyringe';
 import { getAppInfo } from '../constants';
 
 export type DiscordHookBody = {

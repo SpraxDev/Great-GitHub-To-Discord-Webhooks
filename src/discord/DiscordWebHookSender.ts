@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe';
-import { HookOrganization, HookSender } from '../webserver/GitHubHookReceiverRouter';
+import type { OrganizationSimple, SimpleUser } from '../github/payload/Components';
 import DiscordWebHookClient, { DiscordEmbed, DiscordHookBody } from './DiscordWebHookClient';
 
 export type GenericHookData = Pick<DiscordEmbed, 'title' | 'description' | 'url' | 'color' | 'fields'>;
@@ -27,7 +27,7 @@ export default class DiscordWebHookSender {
     this.webHookClient = webHookClient;
   }
 
-  async sendGeneric(hookUrl: string, data: GenericHookData, sender?: HookSender, organization?: HookOrganization): Promise<void> {
+  async sendGeneric(hookUrl: string, data: GenericHookData, sender?: SimpleUser, organization?: OrganizationSimple): Promise<void> {
     await this.webHookClient.send(hookUrl, {
       ...DiscordWebHookSender.DEFAULT_BODY,
       embeds: [
@@ -43,14 +43,14 @@ export default class DiscordWebHookSender {
     });
   }
 
-  async sendOnPing(hookUrl: string, organization: HookOrganization): Promise<void> {
+  async sendOnPing(hookUrl: string, organization?: OrganizationSimple): Promise<void> {
     await this.webHookClient.send(hookUrl, {
       ...DiscordWebHookSender.DEFAULT_BODY,
       embeds: [
         {
           ...this.generateDefaultEmbed(undefined, organization),
           title: 'Received Ping from GitHub',
-          description: 'Looks like the webhook is working! :tada:',
+          description: 'Looks like the webhook is working :tada:',
           color: DiscordWebHookSender.COLOR_PING,
           author: {
             name: 'GitHub',
@@ -61,7 +61,7 @@ export default class DiscordWebHookSender {
     });
   }
 
-  private generateDefaultEmbed(sender?: HookSender, organization?: HookOrganization): Partial<DiscordEmbed> {
+  private generateDefaultEmbed(sender?: SimpleUser, organization?: OrganizationSimple): Partial<DiscordEmbed> {
     const result: Partial<DiscordEmbed> = {};
     if (sender != null) {
       result.author = {

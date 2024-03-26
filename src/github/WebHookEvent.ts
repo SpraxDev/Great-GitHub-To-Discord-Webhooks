@@ -1,14 +1,14 @@
-import { HookBody } from '../webserver/GitHubHookReceiverRouter';
+import type { SimpleEvent } from './payload/Events';
 
-// TODO: Prüfen ob es ein type/interface auch tut
+// TODO: Turn into interface?
 export default class WebHookEvent {
   public readonly event: string;
+  public readonly payload: SimpleEvent;
   public readonly action?: string;
-  public readonly payload: HookBody;
 
-  constructor(event: string, action: string | undefined, payload: HookBody) {
+  constructor(event: string, payload: SimpleEvent) {
     this.event = event;
-    this.action = action;
     this.payload = payload;
+    this.action = payload.action;
   }
 }
