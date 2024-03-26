@@ -78,17 +78,12 @@ export default class PushProcessor extends WebHookEventProcessor {
   // TODO: Make this utility MarkDown aware
   // TODO: Extract this utility method and use it on all the user generated content used in the Discord messages
   private cutCommitMessageToLength(str: string, maxLength: number): string {
-    if (str.length <= maxLength) {
-      return str;
+    const firstLine = str.split('\n')[0].trim();
+    if (firstLine.length <= maxLength) {
+      return firstLine;
     }
 
     const ellipsis = '…';
-    const cutStr = str.substring(0, maxLength - ellipsis.length);
-    const lastNewLine = cutStr.lastIndexOf('\n');
-    if (lastNewLine !== -1) {
-      return cutStr.substring(0, lastNewLine) + ellipsis;
-    }
-
-    return cutStr + ellipsis;
+    return firstLine.substring(0, maxLength - ellipsis.length) + ellipsis;
   }
 }
