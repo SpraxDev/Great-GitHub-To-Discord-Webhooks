@@ -26,8 +26,7 @@
     "test": "jest --coverage",
     "dev": "nodemon --ext ts --watch ./src --exec \"ts-node src/main.ts\"",
 
-    "docker:build": "npm run build && docker build --rm --tag great-github-to-discord-webhooks:dev .",
-    "docker:dev": "npm run docker:build && (docker stop great-github-to-discord-webhooks;docker rm great-github-to-discord-webhooks;echo '') && docker run --name great-github-to-discord-webhooks --cpus 2 --memory 512M --volume great-github-to-discord-webhooks-dev:/app/storage/ great-github-to-discord-webhooks:dev"
+    "podman:build": "podman build --rm --pull --target prod --tag great-github-to-discord-webhooks:latest ."
   },
   "engines": {
     "node": ">=20.0.0",
