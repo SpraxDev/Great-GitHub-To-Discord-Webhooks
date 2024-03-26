@@ -14,7 +14,7 @@ export default class DiscordWebHookSender {
   public static readonly COLOR_GREEN = 0x00ff00;
 
   private static readonly HOOK_USERNAME = 'GitHub Activity';
-  private static readonly HOOK_AVATAR_URL = 'https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png';
+  private static readonly HOOK_AVATAR_URL = 'https://github-hooks.sprax.dev/GitHub.png';
   private static readonly DEFAULT_BODY: DiscordHookBody = {
     username: DiscordWebHookSender.HOOK_USERNAME,
     avatar_url: DiscordWebHookSender.HOOK_AVATAR_URL,
