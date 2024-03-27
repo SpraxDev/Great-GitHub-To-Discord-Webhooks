@@ -37,7 +37,7 @@ export default class PushProcessor extends WebHookEventProcessor {
 
     await this.discordWebHookSender.sendGeneric(hook.discordWebhookUrl, {
       title: `[${event.repository.name}] Tag ${action}`,
-      description: `Tag ${action} at [${event.repository.full_name}](${event.repository.html_url})`,
+      description: `Tag **[\`${tag}\`](${event.repository.html_url}/releases/tag/${tag})** ${action}`,
       url: `${event.repository.html_url}/releases/tag/${tag}`,
       color: event.created ? DiscordWebHookSender.COLOR_INFO : DiscordWebHookSender.COLOR_RED
     }, event.sender, event.organization as OrganizationSimple); // FIXME cast should not be necessary
