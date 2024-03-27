@@ -26,7 +26,7 @@
     "test": "jest --coverage",
     "dev": "nodemon --ext ts --watch ./src --exec \"ts-node src/main.ts\"",
 
-    "podman:build": "podman build --rm --pull --target prod --tag great-github-to-discord-webhooks:latest ."
+    "docker:build": "docker build --rm --pull --target prod --tag great-github-to-discord-webhooks:latest ."
   },
   "engines": {
     "node": ">=20.0.0",
