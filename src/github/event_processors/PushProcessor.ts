@@ -39,7 +39,7 @@ export default class PushProcessor extends WebHookEventProcessor {
       title: `[${event.repository.name}] Tag ${action}`,
       description: `Tag ${action} at [${event.repository.full_name}](${event.repository.html_url})`,
       url: `${event.repository.html_url}/releases/tag/${tag}`,
-      color: DiscordWebHookSender.COLOR_INFO
+      color: event.created ? DiscordWebHookSender.COLOR_INFO : DiscordWebHookSender.COLOR_RED
     }, event.sender, event.organization as OrganizationSimple); // FIXME cast should not be necessary
   }
 
@@ -71,7 +71,7 @@ export default class PushProcessor extends WebHookEventProcessor {
       title: `[${event.repository.name}:${branch}] ${event.commits.length} commit${event.commits.length > 1 ? 's' : ''} ${action}`,
       description: descriptionWithAListOfCommits,
       url: event.compare,
-      color: DiscordWebHookSender.COLOR_INFO
+      color: event.forced ? DiscordWebHookSender.COLOR_RED : DiscordWebHookSender.COLOR_INFO
     }, event.sender, event.organization as OrganizationSimple); // FIXME cast should not be necessary
   }
 
