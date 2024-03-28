@@ -48,10 +48,12 @@ export default class PushProcessor extends WebHookEventProcessor {
       return this.processPushedCommits(event, hook);
     }
 
+    const branch = event.ref.substring('refs/heads/'.length);
     const action = event.deleted ? 'deleted' : 'created';
+
     await this.discordWebHookSender.sendGeneric(hook.discordWebhookUrl, {
       title: `[${event.repository.name}] Branch ${action}`,
-      description: `Branch ${event.ref} ${action} at [${event.repository.full_name}](${event.repository.html_url})`,
+      description: `Branch ${branch} ${action} at [${event.repository.full_name}](${event.repository.html_url})`,
       url: `${event.repository.html_url}/branches`,
       color: event.deleted ? DiscordWebHookSender.COLOR_RED : DiscordWebHookSender.COLOR_GREEN
     }, event.sender, event.organization as OrganizationSimple); // FIXME cast should not be necessary
